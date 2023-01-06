@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+{% for x in ye %}
+  <h1>{{ x }}</h1>
+{% endfor %}
+
+<p>{{ input_month }} ++++++++++++++++ {{ input_year }}</p>
+{% now "Y" as current_year %}
+
+<p>{{ current_year|add:"-2" }}</p>
+<!-- ye= [datetime.date.today().year -i for i in range(5)] -->
+</body>
+</html>

@@ -1,0 +1,48 @@
+{% extends "studens/base.html" %}
+{% block title %}
+  تعديل علي مهمة منفذة
+{% endblock %}
+{% block body %}
+	<!-- <h4 class="text-center m-4">تعديل مهمة منفذة</h4> -->
+	{% if user.is_authenticated %}
+	{% if success %}
+	<div class="alert alert-success text-center" role="alert">
+		تم التعديل بنجاح 
+		<a href="{% url 'index' %}" class="alert-link">الصفحة الرئيسية</a>
+	</div>
+	{% else %}
+		<div class="row justify-content-center " style="font-size:15px">
+			<div class="col-6">
+				<div class="card bg-light mb-3">
+				<div class="card-header text-center m-4">
+					<i class="fa-solid fa-pen-to-square fa-lg"></i><strong> تعديل المهمة</strong>
+									</div>
+				<div class="card-body">
+					<form class="col-auto" action="" method="POST">
+						{% csrf_token %}
+						
+						{% for field in form %}
+						<div class="input-group mb-3 row ">
+							<div class="col-4 text-center">{{ field.label_tag }}</div>
+							<div class="col-7">
+							<div class="input-group">{{ field }}</div>
+							</div>
+						</div>
+						{% endfor %}
+						
+						<button type="submit" class="btn btn-primary ">تعديل</button>
+						<a href="{% url 'index' %}" class="btn btn-secondary m-3">الغاء</a>
+						
+					</form>
+				</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+		{% else %}
+	<div class="text-center">
+	<h1>يجب عليك تسجيل الدخول   لتعديل  المهام .....</h1>
+	<a class="btn btn-light m-4" href="{% url 'login' %}"><h5>دخول</h5></a>
+	</div>
+	{% endif %}
+{% endblock %}

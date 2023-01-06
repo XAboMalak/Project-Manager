@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+	<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500&display=swap" rel="stylesheet">
+	<title>{% block title %}برنامج ادارة المشاريع{% endblock %}</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" >
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %} ">
+
+	<style>
+      body {
+        font-family: 'Tajawal', sans-serif;font-size: 10px;  
+      }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100" >
+<!-- Navbar Start
+		=========================================================-->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+			  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'index' %}"><i class="bi bi-amd fa-lg">  </i> مشروعات مؤسسة الصفار للمقاولات</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'add' %}">
+            <i class="fa-solid fa-plus fa-lg"></i> اضافة مهمة جديدة
+          </a>
+        </li>
+        
+        	{% if user.is_authenticated %}
+        	<li class="nav-item ">
+        	<a class="nav-link active" href="{% url 'logout' %}">خروج</a>
+        	</li>
+        	<li class="nav-item">
+        	<p class="nav-link active" >مرحبا {{ user.username }}</p>
+        	</li>
+        	{% else %}
+        	<li class="nav-item">
+          <a class="nav-link active" href="{% url 'login' %}">دخول</a></li>
+
+        	</li>
+        	{% endif %}
+        
+        
+        <li class="nav-item">
+          <label class="nav-link" >مهام منفذة بالشهر</label>
+        </li>
+      </ul>
+      <form class="d-flex col-3" method="POST" action="{% url 'search_Mission' %}">
+      	{% csrf_token %}
+        <select class="form-control me-sm-2" name="input_month">
+        	<option value="0">اختر الشهر</option>
+        	<option value="1">يناير</option>
+        	<option value="2">فبراير</option>
+        	<option value="3">مارس</option>
+        	<option value="4">ابريل</option>
+        	<option value="5">مايو</option>
+        	<option value="6">يونيو</option>
+        	<option value="7">يوليو</option>
+        	<option value="8">اغسطس</option>
+        	<option value="9">سبتمبر</option>
+        	<option value="10">اكتوبر</option>
+        	<option value="11">نوفمبر</option>
+        	<option value="12">ديسمبر</option>
+        </select>
+        <select class="form-control me-sm-2" name="input_year">
+        {% now "Y" as current_year %}
+        		<option value={{ current_year }}>اختر السنة</option>
+        		<option>{{ current_year }}</option>
+        		<option>{{ current_year|add:"-1" }}</option>
+        		<option>{{ current_year|add:"-2" }}</option>
+        		<option>{{ current_year|add:"-3" }}</option>
+        		<option>{{ current_year|add:"-4" }}</option>
+       
+        </select>
+        <button class="btn btn-secondary me-2" type="submit">عرض</button>
+      </form>
+    </div>
+  </div>
+		</nav>
+<!-- Navbar End
+	=========================================================-->
+	<div class="container-fluid mt-4">
+		{% if messages %}
+		{% for i in messages %}
+				<div class="alert alert-dismissible alert-success text-center">
+		  		<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		  		<strong>{{ i }}</strong>
+				</div>
+			{% endfor %}
+			{% endif %}
+
+		{% block body %}
+		{% endblock %}
+	</div>
+	<footer class="mt-auto mb-4">
+		<div class="text-center">
+			<span>
+				Copyright &copy; <script>
+					document.write(new Date().getFullYear())
+				</script> Mohammed Ebrahim Est
+			</span>
+		</div>
+	</footer>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+</body>
+</html>
